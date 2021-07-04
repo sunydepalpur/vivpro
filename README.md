@@ -7,7 +7,7 @@ Modify the `docker-compose.yml` and `Dockerfile` to your likings to configure ex
 
 ## Using the image in development
 To not have to rebuild the container each time you have updated your code. If you are using docker-compose, you can run the command:
-```
+̦```
 docker-compose build && docker-compose run --rm app bash
 ```
 This will build a docker image and with the dependencies in the requirements.txt file, and then run the container with the console attached.

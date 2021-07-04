@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS songsdb;
+USE songsdb;
+-- CREATE TABLE IF NOT EXISTS (...);
