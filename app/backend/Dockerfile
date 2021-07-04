@@ -8,4 +8,4 @@ RUN pip install -r backend/requirements.txt
 EXPOSE 5000
 
 # command to run on container start
-CMD [ "python", "backend/app.py" ]
+CMD [ "python3", "backend/app.py" ]

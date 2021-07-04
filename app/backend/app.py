@@ -6,15 +6,19 @@ from  flask_sqlalchemy import SQLAlchemy
 import songs
 from flasgger import Swagger
 import pandas as pd
+from sqlalchemy import create_engine
+# import pymysql
 
 
 
 app = Flask(__name__)
 cors = CORS(app)
 # app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://user:password@localhost:3306/songsdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
 # to avoid warning
 swagger = Swagger(app)
 
@@ -102,6 +106,7 @@ def getAllSongs():
         examples:
           /info
     """
+
     page = request.args.get('page', type = int)
     songs = [z.to_json() for z in (Song.query.all() if page is None else Song.query.limit(1 * 10))]
 
@@ -187,40 +192,23 @@ def hello():
     app.logger.info('Root request successfull')
     return "Project Running"
 
-@app.route("/test")
-def loadJSON():
 
+def loadJSON():
     df = pd.read_json("backend/data/playlist.json")
     df = df.assign(star_rating=0)
-
     df.to_sql(name='songs', con=db.engine, index=False, if_exists='replace')
-    # s = Song( id="2klCjJcucgGQysgH170npL", 
-    #           title="4 Walls",
-    #           danceability = 0.849,
-    #           energy= 4,
-    #           key=-4.308,
-    #           loudness=0,
-    #           mode=0.212,
-    #           acousticness=2.94e-05,
-    #           instrumentalness=0.0608,
-    #           liveness=0.223,
-    #           valence=125.972,
-    #           tempo=207477,
-    #           duration_ms=4,
-    #           time_signature=107,
-    #           num_bars=7,
-    #           num_sections=999,
-    #           num_segments=1,
-    #           class_=1)
-
     db.session.commit()
 
-def loadDataIntoDB():
-    loadJSON()
+def setup_app(app):
+    # All your initialization code
+    ## stream logs to a file
+    logging.basicConfig(filename='app.log',level=logging.DEBUG)  
+    loadJSON()  
+    return app
 
 if __name__ == "__main__":
-    ## stream logs to a file
-    logging.basicConfig(filename='app.log',level=logging.DEBUG)    
-    loadDataIntoDB()
+    
+    app = setup_app(app)
     app.run(host='0.0.0.0',port=5000, debug=True)
+    
     

@@ -1,3 +1,6 @@
 app.log
 .pytest_cache
 app/backend/__pycache__
+app/backend/.venv
+.vscode
+test.py

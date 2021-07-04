@@ -1,26 +1,39 @@
 version: ""
 services:
-  web:
-    build: .
+  backend:
+    build:
+      context: .
+      dockerfile: app/backend/Dockerfile  
     # command: python backend/app.py
     # entrypoint: ["python", "backend/app.py"]
-    entrypoint:
-      - flask
-      - run
-      - --host=0.0.0.0
-    environment:
-      FLASK_DEBUG: 1
-      FLASK_APP: ./backend/app.py
+    # entrypoint:
+    #   - flask
+    #   - run
+    #   - --host=0.0.0.0
+    # environment:
+    #   FLASK_DEBUG: 0
+    #   FLASK_ENV: development
+    #   FLASK_APP: ./backend/app.py
     ports: ['5000:5000']
-    # ports:
-    #  - "5000:5000"
     expose:
-      # Opens port 3306 on the container
+      # Opens port 5000 on the container
       - '5000'
     depends_on:
     - "db"
     # environment:
     #  - FLASK_ENV=development # used by the web app to initialize the Flask App in Prod Mode
+
+  frontend:
+    build:
+      context: .
+      dockerfile: app/frontend/Dockerfile  
+    command: npm run start --prefix app/frontend
+    ports: ['3000:3000']
+    expose:
+        # Opens port 5000 on the container
+        - '3000'
+    depends_on:
+      - "backend"
 
 
   db:
@@ -44,9 +57,9 @@ services:
       # Opens port 3306 on the container
       - '3306'
       # Where our data will be persisted
-    volumes:
-      - my-db:/var/lib/mysql
+    # volumes:
+    #   - my-db:/var/lib/mysql
 
 # Names our volume
-volumes:
-  my-db:
+# volumes:
+#   my-db:

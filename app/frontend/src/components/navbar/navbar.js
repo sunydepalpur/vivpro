@@ -1,4 +1,11 @@
-function Navbar() {
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+function Navbar(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -19,19 +26,22 @@ function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">
+              <Link className={ props.location === '/' ? "nav-link" : "nav-link active" } to="/">
                 Home
-              </a>
+              </Link>
             </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                About
-              </a>
-            </li>
+              {/* <li className="nav-item">
+                <Link className="nav-link" to="/search" >
+                  Search
+                </Link>
+              </li> */}
+            <li>
+            <Link className="nav-link"  to="/charts" >Charts</Link>
+          </li>
           </ul>
         </div>
 
-        <form className="d-flex">
+        {/* <form className="d-flex">
           <input
             className="form-control me-2"
             type="search"
@@ -51,7 +61,7 @@ function Navbar() {
             </svg>
             Search</span>
           </button>
-        </form>
+        </form> */}
       </div>
     </nav>
   );

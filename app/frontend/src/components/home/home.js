@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { getAllSongs } from "../../services/allsongs";
 import "./home.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+import "datatables.net-dt/js/dataTables.dataTables"
+import "datatables.net-dt/css/jquery.dataTables.min.css"
+
 
 function Home() {
   const [list, setList] = useState([]);
+
+  $(document).ready(function () {
+    $.noConflict();
+    $(document).ready(function () {
+      $('#dtTable').DataTable();
+  });
+    // $('.dataTables_length').addClass('bs-select');
+  });
 
   useEffect(() => {
     let mounted = true;
@@ -20,28 +35,28 @@ function Home() {
     <div className="wrapper">
       <div className="container-fluid mt-3">
               <div className="table-container">
-              <table className="table">
-          <thead>
+              <table id="dtTable" className="table table-striped table-responsive table-hover table-bordered table-md" cellSpacing="0" width="100%">
+          <thead className="table-dark"> 
             <tr>
-              <th scope="col">id</th>
-              <th scope="col">title</th>
-              <th scope="col">danceability</th>
-              <th scope="col">energy</th>
-              <th scope="col">key</th>
-              <th scope="col">loudness</th>
-              <th scope="col">mode</th>
-              <th scope="col">acousticness</th>
-              <th scope="col">instrumentalness</th>
-              <th scope="col">liveness</th>
-              <th scope="col">valence</th>
-              <th scope="col">tempo</th>
-              <th scope="col">duration_ms</th>
-              <th scope="col">time_signature</th>
-              <th scope="col">num_bars</th>
-              <th scope="col">num_sections</th>
-              <th scope="col">num_segments</th>
-              <th scope="col">class</th>
-              <th scope="col">star_rating</th>
+              <th scope="col">ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Danceability</th>
+              <th scope="col">Energy</th>
+              <th scope="col">Key</th>
+              <th scope="col">Loudness</th>
+              <th scope="col">Mode</th>
+              <th scope="col">Acousticness</th>
+              <th scope="col">Instrumentalness</th>
+              <th scope="col">Liveness</th>
+              <th scope="col">Valence</th>
+              <th scope="col">Tempo</th>
+              <th scope="col">Duration_ms</th>
+              <th scope="col">Time_signature</th>
+              <th scope="col">Num_bars</th>
+              <th scope="col">Num_sections</th>
+              <th scope="col">Num_segments</th>
+              <th scope="col">Class</th>
+              <th scope="col">Star_rating</th>
             </tr>
           </thead>
           <tbody>
